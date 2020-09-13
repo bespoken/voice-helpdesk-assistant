@@ -1,0 +1,5 @@
+{
+  "image": "python:3.7-buster",
+  "forwardPorts": [3000],
+  "extensions": []
+}
