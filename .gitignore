@@ -5,6 +5,7 @@ __pycache__/
 .vscode/
 .history/
 .pytype/
+env
 
 # Rasa Ignores
 credentials.yml
