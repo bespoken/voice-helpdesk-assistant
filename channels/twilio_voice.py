@@ -3,11 +3,13 @@ from twilio.rest import Client
 # -*- coding: utf-8 -*-
 import json
 import logging
+from pydash import py_
 from sanic import Blueprint, response
 from twilio.rest import Client
 
 from rasa.core.channels import InputChannel
 from rasa.core.channels import UserMessage, OutputChannel
+from rasa.core.channels.channel import CollectingOutputChannel
 
 logger = logging.getLogger(__name__)
 
@@ -44,24 +46,31 @@ class TwilioInput(InputChannel):
         @twilio_webhook.route("/webhook", methods=['POST'])
         async def message(request):
             print(request.form) # The payload is form-encoded body
-            # sender = request.values.get('From', None)
+            sender = request.form.get('From', None)
             # text = request.values.get('Body', None)
+            out = CollectingOutputChannel()
+            await on_new_message(UserMessage("Hi", out, sender, input_channel='twilio_voice'))
 
-
-            return response.text("<Response>" \
-                    "<Gather action='/webhooks/twilio_voice/action' input='speech' actionOnEmptyResult='true'>" \
-                    "<Say>Welcome to my bot. Speak now</Say>" \
-                    "</Gather>"
-                "</Response>",
-                headers={"Content-Type": "application/xml"})
+            return self.prompt(out.messages[0]["text"])
         
         @twilio_webhook.route("/action", methods=['POST'])
         async def action(request):
             print("/action called - form: " + str(request.form))
             result = request.form.get('SpeechResult')
+            sender = request.form.get('From', None)
+            
             if (result):
                 print("Result: " + result)
-                return self.twiml("<Say>You Said " + result + "</Say>")
+                out = CollectingOutputChannel()
+                    
+                # send the user message to Rasa & wait for the
+                # response to be sent back
+                await on_new_message(UserMessage(result, out, sender, input_channel='twilio_voice'))
+
+                # extract the text from Rasa's response
+                last_response = py_.nth(out.messages, -1)
+                print('last message: ' + last_response["text"])
+                return self.prompt(last_response["text"])
             else:
                 return response.text("<Response>" \
                         "<Say>Please reply</Say>" \
@@ -70,6 +79,11 @@ class TwilioInput(InputChannel):
                 headers={"Content-Type": "application/xml"})
 
         return twilio_webhook
+
+    def prompt(self, text):
+        return self.twiml("<Gather action='/webhooks/twilio_voice/action' input='speech' actionOnEmptyResult='true'>" \
+                    "<Say>" + text + "</Say>" \
+                "</Gather>")
 
     def twiml(self, text):
         return response.text("<Response>" + text + "</Response>",
