@@ -1,0 +1,25 @@
+FROM rasa/rasa:1.10.12-full
+
+WORKDIR /app
+
+COPY channels/ ./channels
+
+COPY data/ ./data
+
+COPY models/ ./models
+
+COPY config.yml . 
+
+COPY credentials.yml .
+
+COPY domain.yml .
+
+COPY endpoints.yml .
+
+USER root
+
+RUN pip install -r channels/requirements-channels.txt
+
+USER 1001
+
+CMD ["run", "--debug"]

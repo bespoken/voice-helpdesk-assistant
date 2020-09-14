@@ -1,0 +1,21 @@
+version: "3"
+services:
+  channels:
+    build: 
+      context: ..
+      dockerfile: docker/Dockerfile-channels
+    ports: 
+      - "5005:5005"
+  
+  actions:
+    build: 
+      context: ..
+      dockerfile: docker/Dockerfile-actions
+    ports:
+      - "5055:5055"
+  
+  duckling:
+    image: rasa/duckling
+    ports: 
+      - "8000:8000"
+  

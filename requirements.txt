@@ -1,4 +1,2 @@
 rasa~=1.10.0
 rasa-sdk~=1.10.0
-pydash~=4.8.0
--r actions/requirements-actions.txt

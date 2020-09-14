@@ -1,8 +1,8 @@
-FROM rasa/rasa-sdk:1.10.0
+FROM rasa/rasa:1.10.12-full
 
 WORKDIR /app
 
-COPY actions /app/actions
+COPY actions/ ./actions
 
 USER root
 
@@ -10,4 +10,4 @@ RUN pip install --no-cache-dir -r actions/requirements-actions.txt
 
 USER 1001
 
-CMD ["start", "--actions", "actions", "--debug"]
+CMD ["run", "actions", "--debug"]
