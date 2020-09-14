@@ -47,5 +47,8 @@
   * docker run -p 8000:8000 rasa/duckling
   * rasa shell --debug
 
+* Running a connector
+  * Need to do `rasa run`
+
   ## Gotchas
   * Erros with tensorflow
