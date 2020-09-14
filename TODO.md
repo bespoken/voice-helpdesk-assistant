@@ -1,8 +1,10 @@
 # Code
-- [ ] Twilo-Rasa Connector
-- [ ] Test Locally
+- [X] Twilo-Rasa Connector
+- [X] Test Locally
+- [ ] Create first end-to-end test
 - [ ] Fix TensorFlow
 - [ ] Bundle as Docker Compose? Or K3S?
+  * Docker Compose I think is a safer choice
 
 # DevOps
 - [ ] Deploy Rasa X

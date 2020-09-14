@@ -81,7 +81,7 @@ class TwilioInput(InputChannel):
         return twilio_webhook
 
     def prompt(self, text):
-        return self.twiml("<Gather action='/webhooks/twilio_voice/action' input='speech' actionOnEmptyResult='true'>" \
+        return self.twiml("<Gather action='/webhooks/twilio_voice/action' input='speech' speechTimeout='2' actionOnEmptyResult='true'>" \
                     "<Say>" + text + "</Say>" \
                 "</Gather>")
 

@@ -1,0 +1,27 @@
+{
+  "asyncMode": true,
+  "stopTestOnFailure": true,
+  "voiceId": "Joey-Neural",
+  "homophones": {
+    "4": ["four"],
+    "what": ["wage"]
+  },
+  "locale": "en-US",
+  "platform": "twilio",
+  "trace": true,
+  "type": "e2e",
+  "jest": {
+    "silent": false,
+    "verbose": true
+  },
+  "virtualDeviceToken": "twilio-a3572612-2246-42df-b2c2-6b9bd27083cd",
+  "phoneNumber": "+13019005104",
+  "virtualDeviceConfig": {
+    "recordCall": true,
+    "pauseDuration": 1,
+    "repeatOnPhrase": [
+      "I didn't get a yes or no",
+      "I didn't hear whether you said yes or no"
+    ]
+  }
+}

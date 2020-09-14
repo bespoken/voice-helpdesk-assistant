@@ -1,11 +1,11 @@
 # Standard Ignores
-venv
 __pycache__/
 .DS_Store
 .vscode/
 .history/
 .pytype/
-env
+tests/bst-debug.log
+tests/test_output
 
 # Rasa Ignores
 credentials.yml

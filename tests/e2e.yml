@@ -1,0 +1,13 @@
+---
+- test : First test
+- $DIAL: 
+  - transcript: I'm your IT helpdesk assistant
+  - set finishOnPhrase: "assistant"
+- hi:
+  - transcript: "the status of the ticket I opened"
+  - set finishOnPhrase: "opened"
+- open incident:
+  - set finishOnPhrase: "what is your email address"
+  - transcript: "what is your email address"
+- jpk at bespoken dot io:
+   - set finishOnPhrase: "got it"
