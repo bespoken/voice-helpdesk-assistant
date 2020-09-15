@@ -1,0 +1,3 @@
+FROM rasa/rasa-x:latest
+
+CMD ["x"]
