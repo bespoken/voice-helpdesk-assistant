@@ -9,5 +9,6 @@
 # DevOps
 - [ ] Deploy Rasa X
 - [ ] Setup github action
+- [ ] Fix build errors
 
 # Blog

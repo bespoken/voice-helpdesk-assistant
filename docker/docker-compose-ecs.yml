@@ -1,0 +1,24 @@
+version: "3"
+services:
+  rasax:
+    build: 
+      context: ..
+      dockerfile: docker/Dockerfile-rasax
+    command: ["rasa", "x", "--no-prompt", "--credentials", "credentials.yml"]
+    image: bespoken/rasa:rasax
+    ports: 
+      - "5002:5002"
+      - "5005:5005"
+    x-aws-pull_credentials: "arn:aws:secretsmanager:us-east-1:048661040156:secret:dockerhubAccessToken-C6jQ1R"
+    
+  actions:
+    build: 
+      context: ..
+      dockerfile: docker/Dockerfile-actions
+    ports: ["5055:5055"]
+    image: bespoken/rasa:actions
+    x-aws-pull_credentials: "arn:aws:secretsmanager:us-east-1:048661040156:secret:dockerhubAccessToken-C6jQ1R"
+    
+  duckling:
+    image: rasa/duckling
+    ports: ["8000:8000"]

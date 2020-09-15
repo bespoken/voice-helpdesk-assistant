@@ -52,3 +52,17 @@
 
   ## Gotchas
   * Erros with tensorflow
+
+  # Setting up ECS With Docker Compose
+  * Install docker compose ecs
+   * https://docs.docker.com/engine/context/ecs-integration/
+   * aws configure
+  * created token for dockerhub access
+   * docker secret create dockerhubAccessToken --username <dockerhubuser>  --password <dockerhubtoken>
+  * Build
+    * docker context use default
+    * docker-compose -f docker/docker-compose.yml build
+  * Push
+    * docker-compose -f docker/docker-compose.yml push
+  * Deploy
+    * docker compose -f docker/docker-compose.yml up
