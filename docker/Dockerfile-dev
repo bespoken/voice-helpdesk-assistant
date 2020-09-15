@@ -1,0 +1,18 @@
+FROM rasa/rasa:1.10.12-full
+
+
+USER root
+
+COPY actions/ ./actions
+
+COPY channels/ ./channels
+
+RUN ls -ltr
+
+RUN pip install --no-cache-dir -r actions/requirements-actions.txt
+
+RUN pip install --no-cache-dir -r channels/requirements-channels.txt
+
+USER 1001
+
+CMD ["run", "--debug"]
