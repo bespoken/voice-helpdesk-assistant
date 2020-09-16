@@ -3,7 +3,7 @@
 - $DIAL: 
   - transcript: I'm your IT helpdesk assistant
   - set finishOnPhrase: "assistant"
-- hi:
+- hello:
   - transcript: "the status of the ticket I opened"
   - set finishOnPhrase: "opened"
 - open incident:
@@ -12,4 +12,7 @@
 - jpk at bespoken dot io:
   - set finishOnPhrase: "of this issue"
 - high:
-  - set finishOnPhrase: "of this issue" 
+  - set finishOnPhrase: "for this issue" 
+- issues with outlook:
+  - set finishOnPhrase: "this incident"
+- yes 

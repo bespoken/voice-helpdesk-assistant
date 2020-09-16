@@ -1,6 +1,7 @@
 language: en
 pipeline:
   - name: WhitespaceTokenizer
+    case_sensitive: false # Got this from here
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer

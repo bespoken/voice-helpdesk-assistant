@@ -13,6 +13,7 @@
 - [ ] Deploy Rasa X
 - [ ] Setup github action
   - [ ] With auto-update of model
+  - [ ] With rasa tests
   - [ ] With end-to-end test
   - [ ] With audo-update of channel - will use docker-compose
 - [ ] Fix build errors
@@ -26,5 +27,6 @@
 - [ ] Explain how to run in dev mode
 - [ ] Explain how to train
 - [ ] Explain how to deploy
+
 # Testing
 - [ ] How do I get the twilio audio recording in the payload

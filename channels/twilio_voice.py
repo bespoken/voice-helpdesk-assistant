@@ -49,7 +49,7 @@ class TwilioInput(InputChannel):
             print(request.form) # The payload is form-encoded body
             call_sid = request.form.get('CallSid', None)
             out = CollectingOutputChannel()
-            await on_new_message(UserMessage("Hi", out, call_sid, input_channel='twilio_voice'))
+            await on_new_message(UserMessage("Hello there", out, call_sid, input_channel='twilio_voice'))
 
             return self.prompt(out.messages[0]["text"])
         
@@ -59,8 +59,9 @@ class TwilioInput(InputChannel):
             result = request.form.get('SpeechResult')
             call_sid = request.form.get('CallSid', None)
             
+            print("Result: " + str(result))
+                
             if (result):
-                print("Result: " + result)
                 out = CollectingOutputChannel()
                     
                 # send the user message to Rasa and wait for the response to be sent back
@@ -68,7 +69,6 @@ class TwilioInput(InputChannel):
 
                 # extract the text from Rasa's response
                 last_response = py_.nth(out.messages, -1)
-                self.last_response_by_user[sender] = last_response
                 print('last message: ' + last_response["text"])
                 return self.prompt(last_response["text"])
             else:
