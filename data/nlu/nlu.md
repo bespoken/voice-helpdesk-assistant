@@ -87,6 +87,7 @@
 - abel.tuter@example.com
 - it is admin@example.com
 - aileen.mottern@example.com
+- [Gee p k at the spoken dot IO](email)
 - [low](priority)
 - [medium](priority)
 - [high](priority)
@@ -157,3 +158,6 @@
 - chat with a live agent
 - give me a person please
 - i want to talk to a human
+
+## synonym:high
+- hi

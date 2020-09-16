@@ -1,4 +1,5 @@
 {
+  "addStreamSilence": true,
   "asyncMode": true,
   "homophones": {
     "4": ["four"],
@@ -17,9 +18,11 @@
   "virtualDeviceConfig": {
     "recordCall": true,
     "repeatOnPhrase": [
-      "sorry I did not get that",
-      "please repeat"
-    ]
+      "could you rephrase",
+      "please repeat", 
+      "sorry I did not get that"
+    ],
+    "speechModel": "default"
   },
   "virtualDeviceToken": "twilio-a3572612-2246-42df-b2c2-6b9bd27083cd",
   "voiceId": "Joey-Neural"   

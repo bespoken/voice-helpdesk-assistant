@@ -22,5 +22,9 @@
 - [ ] Write blog post
 - [ ] Send to Rasa team
 
+# Docs
+- [ ] Explain how to run in dev mode
+- [ ] Explain how to train
+- [ ] Explain how to deploy
 # Testing
 - [ ] How do I get the twilio audio recording in the payload

@@ -4,15 +4,15 @@ services:
     build: 
       context: ..
       dockerfile: docker/Dockerfile-dev
+    command: ["run", "--debug", "--enable-api", "-m", "models"]
+    container_name: channels
     environment:
       - RASA_USER_APP
       - RASA_X_HOST
       - RASA_X_TOKEN
+    ports: ["5005:5005"]
     volumes:
       - ..:/app
-    ports: ["5005:5005"]
-    working_dir: /app
-    command: ["run", "--debug", "--enable-api", "-m", "models"]
 
   actions:
     build: 

@@ -47,10 +47,9 @@ class TwilioInput(InputChannel):
         @twilio_webhook.route("/webhook", methods=['POST'])
         async def message(request):
             print(request.form) # The payload is form-encoded body
-            sender = request.form.get('From', None)
-            # text = request.values.get('Body', None)
+            call_sid = request.form.get('CallSid', None)
             out = CollectingOutputChannel()
-            await on_new_message(UserMessage("Hi", out, sender, input_channel='twilio_voice'))
+            await on_new_message(UserMessage("Hi", out, call_sid, input_channel='twilio_voice'))
 
             return self.prompt(out.messages[0]["text"])
         
@@ -58,15 +57,14 @@ class TwilioInput(InputChannel):
         async def action(request):
             print("/action called - form: " + str(request.form))
             result = request.form.get('SpeechResult')
-            sender = request.form.get('From', None)
+            call_sid = request.form.get('CallSid', None)
             
             if (result):
                 print("Result: " + result)
                 out = CollectingOutputChannel()
                     
-                # send the user message to Rasa & wait for the
-                # response to be sent back
-                await on_new_message(UserMessage(result, out, sender, input_channel='twilio_voice'))
+                # send the user message to Rasa and wait for the response to be sent back
+                await on_new_message(UserMessage(result, out, call_sid, input_channel='twilio_voice'))
 
                 # extract the text from Rasa's response
                 last_response = py_.nth(out.messages, -1)
@@ -75,7 +73,6 @@ class TwilioInput(InputChannel):
                 return self.prompt(last_response["text"])
             else:
                 # If we did not get a user response, just reprompt
-                last_response = self.last_response_by_user[sender]
                 return self.prompt("sorry, I did not get that - please repeat")
 
         return twilio_webhook

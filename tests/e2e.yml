@@ -10,4 +10,6 @@
   - set finishOnPhrase: "what is your email address"
   - transcript: "what is your email address"
 - jpk at bespoken dot io:
-   - set finishOnPhrase: "got it"
+  - set finishOnPhrase: "of this issue"
+- high:
+  - set finishOnPhrase: "of this issue" 

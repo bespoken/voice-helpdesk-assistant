@@ -55,6 +55,7 @@ def _validate_email(
     elif isinstance(value, bool):
         value = tracker.get_slot("previous_email")
 
+    print('ValidateEmail: ' + str(localmode) + ' caller: ' + results.get("caller_id"))
     if localmode:
         return {"email": value}
 
