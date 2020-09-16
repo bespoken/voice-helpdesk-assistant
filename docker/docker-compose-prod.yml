@@ -1,0 +1,165 @@
+version: "3.4"
+
+x-database-credentials: &database-credentials
+  DB_HOST: "db"
+  DB_PORT: "5432"
+  DB_USER: "${DB_USER:-admin}"
+  DB_PASSWORD: "${DB_PASSWORD}"
+  DB_LOGIN_DB: "${DB_LOGIN_DB:-rasa}"
+
+x-rabbitmq-credentials: &rabbitmq-credentials
+  RABBITMQ_HOST: "rabbit"
+  RABBITMQ_USERNAME: "user"
+  RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+
+x-redis-credentials: &redis-credentials
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  REDIS_PASSWORD: ${REDIS_PASSWORD}
+  REDIS_DB: "1"
+
+x-duckling-credentials: &duckling-credentials
+  RASA_DUCKLING_HTTP_URL: "http://duckling:8000"
+
+x-rasax-credentials: &rasax-credentials
+  RASA_X_HOST: "http://rasa-x:5002"
+  RASA_X_USERNAME: ${RASA_X_USERNAME:-admin}
+  RASA_X_PASSWORD: ${RASA_X_PASSWORD:-}
+  RASA_X_TOKEN: ${RASA_X_TOKEN}
+  JWT_SECRET: ${JWT_SECRET}
+  RASA_USER_APP: "http://app:5055"
+  RASA_PRODUCTION_HOST: "http://rasa-production:5005"
+  RASA_WORKER_HOST: "http://rasa-worker:5005"
+  RASA_TOKEN: ${RASA_TOKEN}
+
+x-rasa-credentials: &rasa-credentials
+  <<: *rabbitmq-credentials
+  <<: *rasax-credentials
+  <<: *database-credentials
+  <<: *redis-credentials
+  <<: *duckling-credentials
+  RASA_TOKEN: ${RASA_TOKEN}
+  RASA_MODEL_PULL_INTERVAL: 10
+  RABBITMQ_QUEUE: "rasa_production_events"
+
+x-rasa-services: &default-rasa-service
+  restart: always
+  image: "rasa/rasa:${RASA_VERSION}-full"
+  expose:
+    - "5005"
+  command: >
+    x
+    --no-prompt
+    --production
+    --config-endpoint http://rasa-x:5002/api/config?token=${RASA_X_TOKEN}
+    --port 5005
+    --jwt-method HS256
+    --jwt-secret ${JWT_SECRET}
+    --auth-token '${RASA_TOKEN}'
+    --cors "*"
+  depends_on:
+    - rasa-x
+    - rabbit
+    - redis
+
+services:
+  rasa-x:
+    restart: always
+    image: "rasa/rasa-x:${RASA_X_VERSION}"
+    expose:
+      - "5002"
+    volumes:
+      - ./models:/app/models
+      - ./environments.yml:/app/environments.yml
+      - ./credentials.yml:/app/credentials.yml
+      - ./endpoints.yml:/app/endpoints.yml
+      - ./logs:/logs
+      - ./auth:/app/auth
+    environment:
+      <<: *database-credentials
+      <<: *rasa-credentials
+      SELF_PORT: "5002"
+      DB_DATABASE: "${DB_DATABASE:-rasa}"
+      RASA_MODEL_DIR: "/app/models"
+      PASSWORD_SALT: ${PASSWORD_SALT}
+      RABBITMQ_QUEUE: "rasa_production_events"
+      RASA_X_USER_ANALYTICS: "0"
+      SANIC_RESPONSE_TIMEOUT: "3600"
+    depends_on:
+      - db
+
+  rasa-production:
+    <<: *default-rasa-service
+    environment:
+      <<: *rasa-credentials
+      RASA_ENVIRONMENT: "production"
+      DB_DATABASE: "tracker"
+      RASA_MODEL_SERVER: "http://rasa-x:5002/api/projects/default/models/tags/production"
+
+  rasa-worker:
+    <<: *default-rasa-service
+    environment:
+      <<: *rasa-credentials
+      RASA_ENVIRONMENT: "worker"
+      DB_DATABASE: "worker_tracker"
+      RASA_MODEL_SERVER: "http://rasa-x:5002/api/projects/default/models/tags/production"
+
+  app:
+    restart: always
+    image: "rasa/rasa-x-demo:${RASA_X_DEMO_VERSION}"
+    expose:
+      - "5055"
+    depends_on:
+      - rasa-production
+
+  db:
+    restart: always
+    image: "bitnami/postgresql:11.7.0"
+    expose:
+      - "5432"
+    environment:
+      POSTGRESQL_USERNAME: "${DB_USER:-admin}"
+      POSTGRESQL_PASSWORD: "${DB_PASSWORD}"
+      POSTGRESQL_DATABASE: "${DB_DATABASE:-rasa}"
+    volumes:
+      - ./db:/bitnami/postgresql
+
+  rabbit:
+    restart: always
+    image: "bitnami/rabbitmq:3.8.3"
+    environment:
+      RABBITMQ_HOST: "rabbit"
+      RABBITMQ_USERNAME: "user"
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      RABBITMQ_DISK_FREE_LIMIT: "{mem_relative, 0.1}"
+    expose:
+      - "5672"
+
+  duckling:
+    restart: always
+    image: "rasa/duckling:0.1.6.3"
+    expose:
+      - "8000"
+    command: ["duckling-example-exe", "--no-access-log", "--no-error-log"]
+
+  nginx:
+    restart: always
+    image: "rasa/nginx:${RASA_X_VERSION}"
+    ports:
+      - "80:8080"
+      - "443:8443"
+    volumes:
+      - ./certs:/opt/bitnami/certs
+      - ./terms:/opt/bitnami/nginx/conf/bitnami/terms
+    depends_on:
+      - rasa-x
+      - rasa-production
+      - app
+
+  redis:
+    restart: always
+    image: "bitnami/redis:5.0.8"
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    expose:
+      - "6379"

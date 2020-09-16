@@ -55,14 +55,17 @@
 
   # Setting up ECS With Docker Compose
   * Install docker compose ecs
-   * https://docs.docker.com/engine/context/ecs-integration/
-   * aws configure
+    * https://docs.docker.com/engine/context/ecs-integration/
+    * aws configure
   * created token for dockerhub access
-   * docker secret create dockerhubAccessToken --username <dockerhubuser>  --password <dockerhubtoken>
+    * docker secret create dockerhubAccessToken --username <dockerhubuser>  --password <dockerhubtoken>
+  * Setup
+    * docker context create rasa
   * Build
     * docker context use default
-    * docker-compose -f docker/docker-compose.yml build
+    * docker-compose -f docker/docker-compose-ecs.yml build
   * Push
-    * docker-compose -f docker/docker-compose.yml push
+    * docker-compose -f docker/docker-compose-ecs.yml push
   * Deploy
-    * docker compose -f docker/docker-compose.yml up
+    * docker context use rasa
+    * docker compose -f docker/docker-compose-ecs.yml up

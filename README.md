@@ -1,10 +1,10 @@
 # Rasa Helpdesk Assistant Example
 
-This is a Rasa chatbot example demonstrating how to build an AI assistant for an IT Helpdesk. It includes an integration with the Service Now API to open incident reports and check on incident report statuses. Below is an example conversation, showing the bot helping a user open a support ticket and query its status. You can use this chatbot as a starting point for building customer service assistants or as a template for collecting required pieces of information from a user before making an API call.
+This is a Rasa example demonstrating how to build a Voice AI assistant for an IT Helpdesk. It uses Twilio Voice as a channel to handle customer support requests. Below is an example conversation, showing the bot helping a user open a support ticket and query its status. You can use this bot as a starting point for building customer service assistants or as a template for collecting required pieces of information from a user before making an API call.
 
 Here is an example of a conversation you can have with this bot:
 
-![Screenshot](./screenshots/demo_ss.png?raw=true)
+![Screenshot](./docs/demo_ss.png?raw=true)
 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -48,27 +48,6 @@ pre-commit install
 
 > With pre-commit installed, the `black` and `doctoc` hooks will run on every `git commit`.
 > If any changes are made by the hooks, you will need to re-add changed files and re-commit your changes.
-
-### Optional: Connect to a ServiceNow instance
-
-You can run this bot without connecting to a ServiceNow instance, in which case it will
-send responses without creating an incident or checking the actual status of one.
-To run the bot  without connecting ServiceNow,
-you don't need to change anything in `actions/snow_credentials.yml`; `localmode` should already be set
-to `true`
-
-If you do want to connect to ServiceNow, you can get your own free Developer instance
-to test this with [here](https://developer.servicenow.com/app.do#!/home)
-
-To connect to your ServiceNow developer instance, configure the following in `actions/snow_credentials.yml`:
-
-- `snow_instance` - This is the address of the ServiceNow developer instance, you don't need the leading https.
-
-- `snow_user` - The username of the service account for the ServiceNow developer instance
-
-- `snow_pw` - The password of the service account for the ServiceNow developer instance
-
-- `localmode` -  Whether the action server should **not** try to reach out to a `snow_instance` based on the credentials in `actions/snow_credentials.yml`. When set to `True` (default in the code), it will just take all the data in and message out the information that would normally be sent.
 
 ## Running the bot
 
@@ -200,7 +179,7 @@ more details on channel-side configuration.
 
 Using the default set up, the handoff skill enables this kind of conversation with two bots:
 
-<img src="./handoff.gif" width="200">
+<img src="./docs/handoff.gif" width="200">
 
 ### Try it out
 
@@ -235,7 +214,7 @@ yarn serve
     ```bash
     rasa run actions --port 5056 --debug
     ```
-7. Open `chatroom_handoff.html` in a browser to see handoff in action
+7. Open `docs/chatroom_handoff.html` in a browser to see handoff in action
 
 
 ### How it works

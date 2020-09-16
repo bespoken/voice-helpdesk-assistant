@@ -1,5 +1,6 @@
 # Standard Ignores
 __pycache__/
+.env
 .DS_Store
 .vscode/
 .history/

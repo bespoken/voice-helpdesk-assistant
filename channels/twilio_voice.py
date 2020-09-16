@@ -35,6 +35,7 @@ class TwilioInput(InputChannel):
         self.auth_token = auth_token
         self.twilio_number = twilio_number
         self.debug_mode = debug_mode
+        self.last_response_by_user = {}
 
     def blueprint(self, on_new_message):
         twilio_webhook = Blueprint('twilio_webhook', __name__)
@@ -69,14 +70,13 @@ class TwilioInput(InputChannel):
 
                 # extract the text from Rasa's response
                 last_response = py_.nth(out.messages, -1)
+                self.last_response_by_user[sender] = last_response
                 print('last message: ' + last_response["text"])
                 return self.prompt(last_response["text"])
             else:
-                return response.text("<Response>" \
-                        "<Say>Please reply</Say>" \
-                        "<Gather/>" \
-                    "</Response>",
-                headers={"Content-Type": "application/xml"})
+                # If we did not get a user response, just reprompt
+                last_response = self.last_response_by_user[sender]
+                return self.prompt("sorry, I did not get that - please repeat")
 
         return twilio_webhook
 

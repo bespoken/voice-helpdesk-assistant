@@ -3,15 +3,18 @@
 # Server where the models are pulled from.
 # https://rasa.com/docs/rasa/user-guide/running-the-server/#fetching-models-from-a-server/
 
-#models:
-#  url: http://my-server.com/models/default_core@latest
-#  wait_time_between_pulls:  10   # [optional](default: 100)
+# Uncomment for rasa x
+# The Rasa X HTTP API is here: https://rasa.com/docs/rasa-x/api/rasa-x-http-api/
+# models:
+#   url: ${RASA_X_HOST}/api/projects/default/models/tags/production
+#   token: ${RASA_X_TOKEN}
+#   wait_time_between_pulls:  100   # [optional](default: 100)
 
 # Server which runs your custom actions.
 # https://rasa.com/docs/rasa/core/actions/#custom-actions/
 
 action_endpoint:
- url: "http://actions:5055/webhook"
+ url: ${RASA_USER_APP}/webhook
 
 # Tracker store which is used to store the conversations.
 # By default the conversations are stored in memory.

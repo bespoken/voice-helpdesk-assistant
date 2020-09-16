@@ -1,10 +1,17 @@
 version: "3"
 services:
-  rasax:
+  rasa-x:
     build: 
       context: ..
       dockerfile: docker/Dockerfile-rasax
-    command: ["rasa", "x", "--no-prompt", "--credentials", "credentials.yml"]
+    command: ["rasa", "x", "--no-prompt", "--debug", "-m", "models", "--credentials", "credentials.yml"]
+    environment:
+      RASA_MODEL_SERVER: http://localhost:5005
+      RASA_USER_APP: http://actions:5055
+      RASA_TOKEN: RandomToken
+      RASA_X_PASSWORD: ChangeThis!
+      RASA_X_HOST: http://localhost:5002
+      RASA_X_TOKEN: RandomToken
     image: bespoken/rasa:rasax
     ports: 
       - "5002:5002"
