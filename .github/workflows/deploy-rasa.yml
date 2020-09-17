@@ -1,5 +1,8 @@
 name: Deploy Rasa
-on: [push]
+on:
+  push:
+    tags:
+      - 'rasa-*'
 
 jobs:
   deploy:

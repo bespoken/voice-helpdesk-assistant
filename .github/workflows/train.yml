@@ -1,5 +1,10 @@
 name: Train Model
-on: [push]
+on:
+  push:
+    paths:
+      - config.yml
+      - data/**/*.md
+      - domain.yml
 
 jobs:
   train:
