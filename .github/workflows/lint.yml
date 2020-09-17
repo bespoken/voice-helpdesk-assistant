@@ -1,0 +1,25 @@
+name: Lint
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7.9
+
+    - name: Install Dependencies
+      run: pip install -r requirements-dev.txt
+
+    - name: Run Flake8
+      run: flake8
+
+    - name: Run PyType
+      run: |
+        pytype actions
+        pytype channels
+  
