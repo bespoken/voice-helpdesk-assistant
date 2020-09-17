@@ -27,7 +27,10 @@ jobs:
         RASA_X_HOST: http://channels:5005
       run: |
         docker context use default
+        docker-compose --help
+        docker --help
         docker compose --help
+        docker compose up --help
 
         
     
