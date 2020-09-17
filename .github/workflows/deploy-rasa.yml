@@ -2,7 +2,7 @@ name: Deploy Rasa
 on: [push]
 
 jobs:
-  train:
+  deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -20,8 +20,8 @@ jobs:
     - name: Run Docker Compose
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_DEFAULT_REGION: us-east-1
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: us-east-1
         BUCKET_NAME: bspk-rasa
         RASA_USER_APP: http://actions:5055
         RASA_X_HOST: http://channels:5005

@@ -15,6 +15,7 @@ services:
           memory: 1024M
     environment:
       - AWS_ACCESS_KEY_ID
+      - AWS_ENDPOINT_URL
       - AWS_SECRET_ACCESS_KEY
       - BUCKET_NAME
       - RASA_USER_APP
