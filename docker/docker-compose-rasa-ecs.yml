@@ -14,11 +14,9 @@ services:
           cpus: '1'
           memory: 1024M
     environment:
-      - AWS_SECRET_ACCESS_KEY
       - AWS_ACCESS_KEY_ID
-      - AWS_DEFAULT_REGION
+      - AWS_SECRET_ACCESS_KEY
       - BUCKET_NAME
-      - AWS_ENDPOINT_URL
       - RASA_USER_APP
       - RASA_X_HOST
       - RASA_X_TOKEN
