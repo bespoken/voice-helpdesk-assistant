@@ -23,6 +23,7 @@ jobs:
     #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     #     TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
     #     TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+        # We use docker-compose here as opposed to docker compose because we want the non-ECS enabled version
     #   run: |
     #     docker context use default
     #     docker-compose -f docker/docker-compose-rasa-ecs.yml build
