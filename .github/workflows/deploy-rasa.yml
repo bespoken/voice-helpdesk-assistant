@@ -30,7 +30,7 @@ jobs:
         docker compose -f docker/docker-compose-rasa-ecs.yml build
         docker compose -f docker/docker-compose-rasa-ecs.yml push
         docker context use rasa
-        docker compose -f docker/docker-compose-ecs.yml up
+        docker compose -f docker/docker-compose-rasa-ecs.yml up
 
         
     
