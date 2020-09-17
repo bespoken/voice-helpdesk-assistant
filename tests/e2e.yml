@@ -12,7 +12,7 @@
 - jpk at bespoken dot io:
   - set finishOnPhrase: "of this issue"
 - high:
-  - set finishOnPhrase: "for this issue" 
+  - set finishOnPhrase: "for the issue" 
 - issues with outlook:
   - set finishOnPhrase: "this incident"
 - yes 

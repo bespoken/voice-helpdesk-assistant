@@ -6,6 +6,8 @@ COPY channels/ ./channels
 
 COPY data/ ./data
 
+COPY models/ ./models
+
 COPY config.yml . 
 
 COPY credentials.yml .
@@ -19,7 +21,5 @@ USER root
 RUN pip install -r channels/requirements-channels.txt
 
 USER 1001
-
-RUN rasa train
 
 CMD ["run", "--debug"]

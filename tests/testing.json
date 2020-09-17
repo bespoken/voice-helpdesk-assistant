@@ -1,5 +1,4 @@
 {
-  "addStreamSilence.bak": true,
   "asyncMode": true,
   "homophones": {
     "4": ["four"],
@@ -16,6 +15,7 @@
   "trace": true,
   "type": "e2e",
   "virtualDeviceConfig": {
+    "addStreamSilence": true,
     "recordCall": true,
     "repeatOnPhrase": [
       "could you rephrase",

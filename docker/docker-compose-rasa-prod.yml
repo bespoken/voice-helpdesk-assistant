@@ -1,0 +1,49 @@
+version: "3"
+services:
+  channels:
+    build: 
+      context: ..
+      dockerfile: docker/Dockerfile-channels
+    command: ["run", "--debug", "--enable-api", "-m", "models"]  
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1024M
+        reservations:
+          cpus: '1'
+          memory: 1024M
+    environment:
+      RASA_USER_APP: http://actions:5055
+      RASA_X_HOST: http://channels:5005
+    image: bespoken/rasa:channels
+    ports: ["5005:5005"]
+    x-aws-pull_credentials: "arn:aws:secretsmanager:us-east-1:048661040156:secret:dockerhubAccessToken-C6jQ1R"
+    
+  actions:
+    build: 
+      context: ..
+      dockerfile: docker/Dockerfile-actions
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1024M
+        reservations:
+          cpus: '1'
+          memory: 1024M
+    ports: ["5055:5055"]
+    image: bespoken/rasa:actions
+    x-aws-pull_credentials: "arn:aws:secretsmanager:us-east-1:048661040156:secret:dockerhubAccessToken-C6jQ1R"
+    
+  duckling:
+    image: rasa/duckling
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1024M
+        reservations:
+          cpus: '1'
+          memory: 1024M
+    ports: ["8000:8000"]
