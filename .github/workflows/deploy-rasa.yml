@@ -38,7 +38,8 @@ jobs:
         RASA_USER_APP: http://actions:5055
         RASA_X_HOST: http://channels:5005
       run: |
-        docker context use rasa
+        docker context create ecs ecs --key-id $AWS_ACCESS_KEY_ID --profile ecs --region us-east-1 --secret-key $AWS_SECRET_ACCESS_KEY
+        docker context use ecs
         docker compose -f docker/docker-compose-rasa-ecs.yml up
 
         
