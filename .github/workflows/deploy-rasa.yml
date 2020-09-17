@@ -17,7 +17,13 @@ jobs:
     - name: Install Docker ECS Integration CLI
       run: curl -L https://raw.githubusercontent.com/docker/aci-integration-beta/main/scripts/install_linux.sh | sh
 
-    - name: Run Docker Compose
+    - name: Docker Compose Build and Push
+      run: |
+        docker context use default
+        docker-compose -f docker/docker-compose-rasa-ecs.yml build
+        docker-compose -f docker/docker-compose-rasa-ecs.yml push
+
+    - name: Docker Compose Up
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_DEFAULT_REGION: us-east-1
@@ -26,11 +32,8 @@ jobs:
         RASA_USER_APP: http://actions:5055
         RASA_X_HOST: http://channels:5005
       run: |
-        docker context use default
-        docker-compose --help
-        docker --help
-        docker compose --help
-        docker compose up --help
+        docker context use rasa
+        docker compose -f docker/docker-compose-rasa-ecs.yml up
 
         
     
