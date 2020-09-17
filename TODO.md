@@ -20,6 +20,7 @@
 - [ ] Use rasax for deploy and local dev
 - [ ] Deploy Rasa X
 - [ ] Figure out why docker compose uses public IPs
+- [ ] Make sure the python files from the omounted dir are being used in local environment
 
 # Blog
 - [ ] Write blog post

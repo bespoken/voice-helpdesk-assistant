@@ -1,6 +1,5 @@
 FROM rasa/rasa:1.10.12-full
 
-
 USER root
 
 COPY actions/ ./actions
