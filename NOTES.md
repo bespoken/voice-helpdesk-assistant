@@ -68,4 +68,16 @@
     * docker-compose -f docker/docker-compose-ecs.yml push
   * Deploy
     * docker context use rasa
+    * export $(grep -v '^#' .env | xargs)
     * docker compose -f docker/docker-compose-ecs.yml up
+
+
+# Model Updates
+## Curl Command
+export MODEL_FILE=`ls -Art models | tail -n 1`
+curl --location --request PUT 'http://localhost:5005/model' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+    "model_file": "'"$MODEL_FILE"'",
+    "remote_storage": "aws"
+  }'

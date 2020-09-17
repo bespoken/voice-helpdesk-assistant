@@ -35,3 +35,11 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
         SOURCE_DIR: 'models'      # optional: defaults to entire repository
+
+    - name: Reload Model
+      run: |
+        export MODEL_FILE=`ls -Art models | tail -n 1`
+        echo $MODEL_FILE
+        curl --location --request PUT 'http://rasa.bespoken.io:5005/model' \
+          --header 'Content-Type: application/json' \
+          --data-raw '{"model_file": "'"$MODEL_FILE"'", "remote_storage": "aws" }' \
