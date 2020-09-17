@@ -13,6 +13,8 @@ services:
       - RASA_USER_APP
       - RASA_X_HOST
       - RASA_X_TOKEN
+      - TWILIO_ACCOUNT_SID
+      - TWILIO_AUTH_TOKEN
     image: bespoken/rasa:channels
     ports: ["5005:5005"]
     x-aws-pull_credentials: "arn:aws:secretsmanager:us-east-1:048661040156:secret:dockerhubAccessToken-C6jQ1R"

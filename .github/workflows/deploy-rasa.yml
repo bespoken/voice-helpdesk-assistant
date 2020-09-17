@@ -17,18 +17,18 @@ jobs:
     - name: Install Docker ECS Integration CLI
       run: curl -L https://raw.githubusercontent.com/docker/aci-integration-beta/main/scripts/install_linux.sh | sh
 
-    # - name: Docker Compose Build and Push
-    #   env:
-    #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-    #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-    #     TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-    #     TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
-        # We use docker-compose here as opposed to docker compose because we want the non-ECS enabled version
-    #   run: |
-    #     docker context use default
-    #     docker-compose -f docker/docker-compose-rasa-ecs.yml build
-    #     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    #     docker-compose -f docker/docker-compose-rasa-ecs.yml push
+    - name: Docker Compose Build and Push
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+        TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+      # We use docker-compose here as opposed to docker compose because we want the non-ECS enabled version
+      run: |
+        docker context use default
+        docker-compose -f docker/docker-compose-rasa-ecs.yml build
+        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        docker-compose -f docker/docker-compose-rasa-ecs.yml push
 
     - name: Docker Compose Up
       env:
@@ -38,6 +38,7 @@ jobs:
         BUCKET_NAME: bspk-rasa
         RASA_USER_APP: http://actions:5055
         RASA_X_HOST: http://channels:5005
+       # We use docker compose here as opposed to docker-compose because we want the ECS enabled version
       run: |
         aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
         aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"

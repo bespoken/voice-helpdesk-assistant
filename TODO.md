@@ -19,6 +19,7 @@
 - [ ] Fix build errors
 - [ ] Use rasax for deploy and local dev
 - [ ] Deploy Rasa X
+- [ ] Figure out why docker compose uses public IPs
 
 # Blog
 - [ ] Write blog post
