@@ -22,8 +22,7 @@ class TwilioInput(InputChannel):
         if not credentials:
             cls.raise_missing_credentials_exception()
 
-        return cls(credentials.get("account_sid"),
-                   credentials.get("auth_token"))
+        return cls(credentials.get("account_sid"), credentials.get("auth_token"))
 
     def __init__(self, account_sid, auth_token, debug_mode=True):
         self.account_sid = account_sid
@@ -32,44 +31,42 @@ class TwilioInput(InputChannel):
         self.last_response_by_user = {}
 
     def blueprint(self, on_new_message):
-        twilio_webhook = Blueprint('twilio_webhook', __name__)
+        twilio_webhook = Blueprint("twilio_webhook", __name__)
 
-        @twilio_webhook.route("/", methods=['GET'])
+        @twilio_webhook.route("/", methods=["GET"])
         async def health(request):
             return response.json({"status": "ok"})
 
-        @twilio_webhook.route("/webhook", methods=['POST'])
+        @twilio_webhook.route("/webhook", methods=["POST"])
         async def message(request):
             print(request.form)  # The payload is form-encoded body
-            call_sid = request.form.get('CallSid', None)
+            call_sid = request.form.get("CallSid", None)
             out = CollectingOutputChannel()
-            await on_new_message(UserMessage("Hello there",
-                                             out,
-                                             call_sid,
-                                             input_channel='twilio_voice'))
+            await on_new_message(
+                UserMessage("Hello there", out, call_sid, input_channel="twilio_voice")
+            )
 
             return self.prompt(out.messages[0]["text"])
 
-        @twilio_webhook.route("/action", methods=['POST'])
+        @twilio_webhook.route("/action", methods=["POST"])
         async def action(request):
             print("/action called - form: " + str(request.form))
-            result = request.form.get('SpeechResult')
-            call_sid = request.form.get('CallSid', None)
+            result = request.form.get("SpeechResult")
+            call_sid = request.form.get("CallSid", None)
 
             print("Result: " + str(result))
 
-            if (result):
+            if result:
                 out = CollectingOutputChannel()
 
                 # sends message to Rasa, wait for the response
-                await on_new_message(UserMessage(result,
-                                                 out,
-                                                 call_sid,
-                                                 input_channel='twilio_voice'))
+                await on_new_message(
+                    UserMessage(result, out, call_sid, input_channel="twilio_voice")
+                )
 
                 # extract the text from Rasa's response
                 last_response = py_.nth(out.messages, -1)
-                print('last message: ' + last_response["text"])
+                print("last message: " + last_response["text"])
                 return self.prompt(last_response["text"])
             else:
                 # If we did not get a user response, just reprompt
@@ -78,12 +75,16 @@ class TwilioInput(InputChannel):
         return twilio_webhook
 
     def prompt(self, text):
-        return self.twiml("<Gather action='/webhooks/twilio_voice/action'"
-                          "        input='speech' speechTimeout='2'"
-                          "        actionOnEmptyResult='true'>"
-                          "     <Say>" + text + "</Say>"
-                          "</Gather>")
+        return self.twiml(
+            "<Gather action='/webhooks/twilio_voice/action'"
+            "        input='speech' speechTimeout='2'"
+            "        actionOnEmptyResult='true'>"
+            "     <Say>" + text + "</Say>"
+            "</Gather>"
+        )
 
     def twiml(self, text):
-        return response.text("<Response>" + text + "</Response>",
-                             headers={"Content-Type": "application/xml"})
+        return response.text(
+            "<Response>" + text + "</Response>",
+            headers={"Content-Type": "application/xml"},
+        )
