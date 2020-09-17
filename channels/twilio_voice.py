@@ -22,7 +22,9 @@ class TwilioInput(InputChannel):
         if not credentials:
             cls.raise_missing_credentials_exception()
 
-        return cls(credentials.get("account_sid"), credentials.get("auth_token"))
+        return cls(
+            credentials.get("account_sid"), credentials.get("auth_token")
+        )
 
     def __init__(self, account_sid, auth_token, debug_mode=True):
         self.account_sid = account_sid
@@ -43,7 +45,9 @@ class TwilioInput(InputChannel):
             call_sid = request.form.get("CallSid", None)
             out = CollectingOutputChannel()
             await on_new_message(
-                UserMessage("Hello there", out, call_sid, input_channel="twilio_voice")
+                UserMessage(
+                    "Hello there", out, call_sid, input_channel="twilio_voice"
+                )
             )
 
             return self.prompt(out.messages[0]["text"])
@@ -61,7 +65,9 @@ class TwilioInput(InputChannel):
 
                 # sends message to Rasa, wait for the response
                 await on_new_message(
-                    UserMessage(result, out, call_sid, input_channel="twilio_voice")
+                    UserMessage(
+                        result, out, call_sid, input_channel="twilio_voice"
+                    )
                 )
 
                 # extract the text from Rasa's response
