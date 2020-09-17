@@ -9,7 +9,6 @@ tests/bst-debug.log
 tests/test_output
 
 # Rasa Ignores
-credentials.yml
 *.db-*
 rasa.db*
 *.db

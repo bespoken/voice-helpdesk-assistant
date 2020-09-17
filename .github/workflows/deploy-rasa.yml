@@ -18,6 +18,9 @@ jobs:
       run: curl -L https://raw.githubusercontent.com/docker/aci-integration-beta/main/scripts/install_linux.sh | sh
 
     - name: Docker Compose Build and Push
+      env:
+        TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+        TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
       run: |
         docker context use default
         docker-compose -f docker/docker-compose-rasa-ecs.yml build

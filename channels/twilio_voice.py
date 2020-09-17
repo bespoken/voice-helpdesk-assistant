@@ -26,14 +26,11 @@ class TwilioInput(InputChannel):
             cls.raise_missing_credentials_exception()
 
         return cls(credentials.get("account_sid"),
-                   credentials.get("auth_token"),
-                   credentials.get("twilio_number"))
+                   credentials.get("auth_token"))
 
-    def __init__(self, account_sid, auth_token, twilio_number,
-                 debug_mode=True):
+    def __init__(self, account_sid, auth_token, debug_mode=True):
         self.account_sid = account_sid
         self.auth_token = auth_token
-        self.twilio_number = twilio_number
         self.debug_mode = debug_mode
         self.last_response_by_user = {}
 
