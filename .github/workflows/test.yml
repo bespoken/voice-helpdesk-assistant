@@ -1,0 +1,20 @@
+name: Lint and Test
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Rasa Tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: Run Local Containers
+      run: |
+        docker compose -f docker/docker-compose-rasa-local.yml up
+
+    - name: Run Tests
+      run: |
+        docker exec channels rasa test
