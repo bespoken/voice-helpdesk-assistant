@@ -17,8 +17,8 @@ jobs:
 
     - name: Run Black
       run: |
-        black --check actions
-        black --check channels
+        black --check actions --line-length 79
+        black --check channels --line-length 79
 
     - name: Run Flake8
       run: flake8
