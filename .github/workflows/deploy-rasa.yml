@@ -19,11 +19,14 @@ jobs:
 
     - name: Docker Compose Build and Push
       env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
         TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
       run: |
         docker context use default
         docker-compose -f docker/docker-compose-rasa-ecs.yml build
+        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         docker-compose -f docker/docker-compose-rasa-ecs.yml push
 
     - name: Docker Compose Up
