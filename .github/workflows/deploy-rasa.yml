@@ -27,7 +27,7 @@ jobs:
         RASA_X_HOST: http://channels:5005
       run: |
         docker context use default
-        docker compose -f docker/docker-compose-rasa-ecs.yml build
+        docker compose --help
 
         
     
