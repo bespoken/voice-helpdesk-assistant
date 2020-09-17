@@ -15,6 +15,7 @@
 - see you later
 - see ya
 - buh bye
+- so long
 
 ## intent:thank
 - thanks!

@@ -1,7 +1,7 @@
 # Code
 - [X] Twilo-Rasa Connector
 - [X] Test Locally
-- [ ] Create first end-to-end test
+- [X] Create first end-to-end test
 - [X] Fix TensorFlow
 - [X] Bundle as Docker Compose? Or K3S?
   * Docker Compose I think is a safer choice

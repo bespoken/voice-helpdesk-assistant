@@ -1,0 +1,31 @@
+name: Train Model
+on:
+  push:
+    paths:
+      - config.yml
+      - data/**/*.md
+      - domain.yml
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install Python
+    - uses: actions/setup-python@v1
+      with:
+        python-version: 3.7.9
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Train
+      run: rasa train
+
+    - name: Save Results
+      uses: actions/upload-artifact@v1
+      with:
+        name: models
+        path: models/*.tar.gz
