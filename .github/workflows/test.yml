@@ -21,7 +21,7 @@ jobs:
         TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
         TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
       run: |
-        docker-compose -f docker/docker-compose-rasa-local.yml up
+        docker-compose -f docker/docker-compose-local.yml up -d
 
     - name: Run Tests
       run: |

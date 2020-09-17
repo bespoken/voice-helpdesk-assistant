@@ -27,9 +27,9 @@ jobs:
       # We use docker-compose here as opposed to docker compose because we want the non-ECS enabled version
       run: |
         docker context use default
-        docker-compose -f docker/docker-compose-rasa-ecs.yml build
+        docker-compose -f docker/docker-compose-ecs.yml build
         docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        docker-compose -f docker/docker-compose-rasa-ecs.yml push
+        docker-compose -f docker/docker-compose-ecs.yml push
 
     - name: Docker Compose Up
       env:
@@ -48,7 +48,4 @@ jobs:
         aws configure set default.region "us-east-1"
         docker context create ecs ecs --key-id $AWS_ACCESS_KEY_ID --profile ecs --region us-east-1 --secret-key $AWS_SECRET_ACCESS_KEY
         docker context use ecs
-        docker compose -f docker/docker-compose-rasa-ecs.yml up
-
-        
-    
+        docker compose -f docker/docker-compose-ecs.yml up
