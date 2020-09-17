@@ -17,17 +17,17 @@ jobs:
     - name: Install Docker ECS Integration CLI
       run: curl -L https://raw.githubusercontent.com/docker/aci-integration-beta/main/scripts/install_linux.sh | sh
 
-    - name: Docker Compose Build and Push
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-        TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
-      run: |
-        docker context use default
-        docker-compose -f docker/docker-compose-rasa-ecs.yml build
-        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        docker-compose -f docker/docker-compose-rasa-ecs.yml push
+    # - name: Docker Compose Build and Push
+    #   env:
+    #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    #     TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+    #     TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+    #   run: |
+    #     docker context use default
+    #     docker-compose -f docker/docker-compose-rasa-ecs.yml build
+    #     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    #     docker-compose -f docker/docker-compose-rasa-ecs.yml push
 
     - name: Docker Compose Up
       env:
@@ -38,6 +38,9 @@ jobs:
         RASA_USER_APP: http://actions:5055
         RASA_X_HOST: http://channels:5005
       run: |
+        aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
+        aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
+        aws configure set default.region "us-east-1"
         docker context create ecs ecs --key-id $AWS_ACCESS_KEY_ID --profile ecs --region us-east-1 --secret-key $AWS_SECRET_ACCESS_KEY
         docker context use ecs
         docker compose -f docker/docker-compose-rasa-ecs.yml up
