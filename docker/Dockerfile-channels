@@ -6,8 +6,6 @@ COPY channels/ ./channels
 
 COPY data/ ./data
 
-COPY models/ ./models
-
 COPY config.yml . 
 
 COPY credentials.yml .
