@@ -1,10 +1,5 @@
 name: Train Model
-on:
-  push:
-    paths:
-      - config.yml
-      - data/**/*.md
-      - domain.yml
+on: [push]
 
 jobs:
   train:
@@ -28,4 +23,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: models
-        path: models/*.tar.gz
+        path: models/
