@@ -14,6 +14,8 @@ services:
       - RASA_USER_APP
       - RASA_X_HOST
       - RASA_X_TOKEN
+      - TWILIO_ACCOUNT_SID
+      - TWILIO_AUTH_TOKEN
     ports: ["5005:5005"]
     volumes:
       - ..:/app
