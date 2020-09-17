@@ -16,6 +16,7 @@
 - see ya
 - buh bye
 - so long
+- tata
 
 ## intent:thank
 - thanks!
