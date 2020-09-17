@@ -4,9 +4,14 @@ services:
     build: 
       context: ..
       dockerfile: docker/Dockerfile-dev
-    command: ["run", "--debug", "--enable-api", "-m", "models"]
+    command: ["run", "--debug", "--enable-api", "-m", "latest-model", "--remote-storage", "aws"]
     container_name: channels
     environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_DEFAULT_REGION
+      - BUCKET_NAME
+      - AWS_ENDPOINT_URL
       - RASA_USER_APP
       - RASA_X_HOST
       - RASA_X_TOKEN
