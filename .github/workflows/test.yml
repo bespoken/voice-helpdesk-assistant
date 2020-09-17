@@ -1,4 +1,4 @@
-name: Lint and Test
+name: Test
 on:
   push:
     branches:
@@ -13,7 +13,7 @@ jobs:
     
     - name: Run Local Containers
       run: |
-        docker compose -f docker/docker-compose-rasa-local.yml up
+        docker-compose -f docker/docker-compose-rasa-local.yml up
 
     - name: Run Tests
       run: |
