@@ -8,10 +8,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1'
+          cpus: 1
           memory: 1024M
         reservations:
-          cpus: '1'
+          cpus: 1
           memory: 1024M
     environment:
       - AWS_ACCESS_KEY_ID
@@ -32,10 +32,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1'
+          cpus: 1
           memory: 1024M
         reservations:
-          cpus: '1'
+          cpus: 1
           memory: 1024M
     ports: ["5055:5055"]
     image: bespoken/rasa:actions
@@ -46,9 +46,9 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1'
+          cpus: 1
           memory: 1024M
         reservations:
-          cpus: '1'
+          cpus: 1
           memory: 1024M
     ports: ["8000:8000"]
