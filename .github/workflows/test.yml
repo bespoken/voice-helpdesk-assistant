@@ -22,7 +22,5 @@ jobs:
         TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
       run: |
         docker-compose -f docker/docker-compose-local.yml up -d
-
-    - name: Run Tests
-      run: |
+        docker ps
         docker exec channels rasa test
