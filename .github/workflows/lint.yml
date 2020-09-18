@@ -1,5 +1,9 @@
 name: Lint
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - actions/*.py
+      - channels/*.py
 
 jobs:
   lint:
