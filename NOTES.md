@@ -87,5 +87,6 @@ curl --location --request PUT 'http://localhost:5005/model' \
 curl \
   -X POST \
   -H "Accept: application/vnd.github.v3+json" \
+  -u USER:TOKEN \
   https://api.github.com/repos/jkelvie/helpdesk-assistant/dispatches \
   -d '{"event_type":"deploy_model"}'
