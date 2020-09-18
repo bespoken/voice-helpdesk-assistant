@@ -23,6 +23,7 @@ jobs:
       run: |
         docker-compose -f docker/docker-compose-local.yml up -d
         docker ps
+        mkdir models
         docker exec channels rasa test || true
 
     - name: Check logs
