@@ -1,7 +1,7 @@
 name: End-To-End Test
 on:
   repository_dispatch:
-    types: [deploy-model]
+    types: [deploy-model, deploy-rasa]
 
 jobs:
   test:
