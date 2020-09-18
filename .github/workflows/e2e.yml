@@ -1,0 +1,22 @@
+name: End-To-End Test
+on:
+  repository_dispatch:
+    types: [deploy-model]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Run End-To-End Tests
+      run: |
+        npm install bespoken-tools -g
+        cd tests
+        bst test
+
+    - name: Save Test Results
+      uses: actions/upload-artifact@v1
+      with:
+        name: Test Results
+        path: tests/test_output/

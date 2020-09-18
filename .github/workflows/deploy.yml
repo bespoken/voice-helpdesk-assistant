@@ -48,15 +48,3 @@ jobs:
         docker context create ecs ecs --key-id $AWS_ACCESS_KEY_ID --profile ecs --region us-east-1 --secret-key $AWS_SECRET_ACCESS_KEY
         docker context use ecs
         docker compose -f docker/docker-compose-ecs.yml up
-    
-    - name: Run End-To-End Tests
-      run: |
-        npm install bespoken-tools -g
-        cd tests
-        bst test
-
-    - name: Save Test Results
-      uses: actions/upload-artifact@v1
-      with:
-        name: Test Results
-        path: tests/test_output/

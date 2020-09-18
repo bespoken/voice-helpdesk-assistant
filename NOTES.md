@@ -81,3 +81,11 @@ curl --location --request PUT 'http://localhost:5005/model' \
     "model_file": "'"$MODEL_FILE"'",
     "remote_storage": "aws"
   }'
+
+
+# Github Dispatch
+curl \
+  -X POST \
+  -H "Accept: application/vnd.github.v3+json" \
+  https://api.github.com/repos/jkelvie/helpdesk-assistant/dispatches \
+  -d '{"event_type":"deploy_model"}'

@@ -14,7 +14,7 @@
 - [X] Setup github action
   - [X] With auto-update of model
   - [X] With rasa tests
-  - [ ] With end-to-end test
+  - [X] With end-to-end test
   - [X] With audo-update of channel - will use docker-compose
 - [X] Fix build errors
 - [ ] Figure out why docker compose uses public IPs
@@ -22,6 +22,7 @@
 - [ ] Make sure the python files from the omounted dir are being used in local environment
 - [ ] Do workflow triggers to create dependencies between workflows
 - [ ] Actions container did not seem to have the latest code?
+- [ ] Create unique images that are public on dockerhub
 
 # Blog
 - [ ] Write blog post
