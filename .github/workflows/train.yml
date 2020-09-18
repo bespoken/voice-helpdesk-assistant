@@ -49,3 +49,9 @@ jobs:
         curl --location --request PUT 'http://rasa.bespoken.io:5005/model' \
           --header 'Content-Type: application/json' \
           --data-raw '{"model_file": "'"$MODEL_FILE"'", "remote_storage": "aws" }'
+
+    - name: Run End-To-End Test Workflow
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        event-type: deploy-model

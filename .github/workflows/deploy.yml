@@ -48,3 +48,9 @@ jobs:
         docker context create ecs ecs --key-id $AWS_ACCESS_KEY_ID --profile ecs --region us-east-1 --secret-key $AWS_SECRET_ACCESS_KEY
         docker context use ecs
         docker compose -f docker/docker-compose-ecs.yml up
+
+    - name: Run End-To-End Test Workflow
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        event-type: deploy-rasa
