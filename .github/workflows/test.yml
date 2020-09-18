@@ -24,7 +24,6 @@ jobs:
         docker-compose -f docker/docker-compose-local.yml up -d
         docker ps
         docker exec channels rasa test || true
-        docker logs channels
 
     - name: Check logs
       run: docker logs channels

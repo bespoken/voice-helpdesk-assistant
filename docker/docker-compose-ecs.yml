@@ -11,8 +11,6 @@ services:
       - AWS_SECRET_ACCESS_KEY
       - BUCKET_NAME
       - RASA_USER_APP
-      - RASA_X_HOST
-      - RASA_X_TOKEN
       - TWILIO_ACCOUNT_SID
       - TWILIO_AUTH_TOKEN
     image: bespoken/rasa:channels

@@ -38,7 +38,6 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         BUCKET_NAME: bspk-rasa
         RASA_USER_APP: http://actions:5055
-        RASA_X_HOST: http://channels:5005
         TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
         TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
        # We use docker compose here as opposed to docker-compose because we want the ECS enabled version
