@@ -72,8 +72,13 @@ class TwilioInput(InputChannel):
 
                 # extract the text from Rasa's response
                 last_response = py_.nth(out.messages, -1)
-                print("last message: " + last_response["text"])
-                return self.prompt(last_response["text"])
+
+                # Some times on restarts, the server is in a weird state and their may be no session for an action
+                if last_response:
+                    print("last message: " + last_response["text"])
+                    return self.prompt(last_response["text"])
+                else:
+                    return self.prompt('How can I help you today?')
             else:
                 # If we did not get a user response, just reprompt
                 return self.prompt("sorry, I did not get that - please repeat")

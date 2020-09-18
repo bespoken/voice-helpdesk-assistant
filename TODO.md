@@ -13,12 +13,15 @@
 # DevOps
 - [X] Setup github action
   - [X] With auto-update of model
-  - [ ] With rasa tests
+  - [X] With rasa tests
   - [ ] With end-to-end test
-  - [ ] With audo-update of channel - will use docker-compose
+  - [X] With audo-update of channel - will use docker-compose
 - [X] Fix build errors
 - [ ] Figure out why docker compose uses public IPs
+- [ ] Create example.env file
 - [ ] Make sure the python files from the omounted dir are being used in local environment
+- [ ] Do workflow triggers to create dependencies between workflows
+- [ ] Actions container did not seem to have the latest code?
 
 # Blog
 - [ ] Write blog post
