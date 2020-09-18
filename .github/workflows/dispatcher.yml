@@ -5,9 +5,8 @@ jobs:
   dispatch:
     runs-on: ubuntu-latest
     steps:
-      - name: Dispatch
-        run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/jkelvie/helpdesk-assistant/dispatches \
-            -d '{"event_type":"deploy_model"}'
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          event-type: deploy-model
