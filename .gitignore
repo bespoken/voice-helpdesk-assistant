@@ -9,9 +9,8 @@ tests/bst-debug.log
 tests/test_output
 
 # Rasa Ignores
-*.db-*
 rasa.db*
-*.db
+latest-model.tar.gz
 results/
 models/
 snow_connector.py

@@ -4,13 +4,9 @@ services:
     build: 
       context: ..
       dockerfile: docker/Dockerfile-dev
-    command: ["run", "--debug", "--enable-api", "-m", "latest-model", "--remote-storage", "aws"]
+    command: ["run", "--debug", "--enable-api", "-m", "models"]
     container_name: channels
     environment:
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-      - AWS_DEFAULT_REGION
-      - BUCKET_NAME
       - RASA_USER_APP
       - TWILIO_ACCOUNT_SID
       - TWILIO_AUTH_TOKEN

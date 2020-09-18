@@ -11,6 +11,19 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     
+    # Build the model
+    - name: Install Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7.9
+
+    - name: Install Dependencies
+      run: pip install -r requirements.txt
+
+    - name: Train
+      run: rasa train
+
+    # Run the full set of containers (rasa, actions, duckling)
     - name: Run Local Containers
       env: 
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -23,7 +36,6 @@ jobs:
       run: |
         docker-compose -f docker/docker-compose-local.yml up -d
         docker ps
-        mkdir models
         docker exec channels rasa test || true
 
     - name: Check logs
