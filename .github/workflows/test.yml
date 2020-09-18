@@ -24,3 +24,4 @@ jobs:
         docker-compose -f docker/docker-compose-local.yml up -d
         docker ps
         docker exec channels rasa test
+        docker logs channels
