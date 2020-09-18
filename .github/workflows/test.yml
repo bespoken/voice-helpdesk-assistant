@@ -26,17 +26,17 @@ jobs:
     # Run the full set of containers (rasa, actions, duckling)
     - name: Run Local Containers
       env: 
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: us-east-1
-        BUCKET_NAME: bspk-rasa
         RASA_USER_APP: https://actions:5055
         TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
         TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
       run: |
         docker-compose -f docker/docker-compose-local.yml up -d
         docker ps
-        docker exec channels rasa test || true
 
+    - name: Run Tests
+      run: docker exec channels rasa test
+
+    # We check the logs as a separate step, so we can see the errors if the previous step fails
     - name: Check logs
+      if: ${{ cancelled() }}
       run: docker logs channels
