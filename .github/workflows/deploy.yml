@@ -51,6 +51,7 @@ jobs:
     
     - name: Run End-To-End Tests
       run: |
+        npm install bespoken-tools -g
         cd tests
         bst test
 

@@ -5,6 +5,8 @@ on:
       - config.yml
       - data/**/*.md
       - domain.yml
+    tags-ignore:
+      - '**' # We don't want this to run on release
 
 jobs:
   train:
@@ -46,4 +48,4 @@ jobs:
         echo $MODEL_FILE
         curl --location --request PUT 'http://rasa.bespoken.io:5005/model' \
           --header 'Content-Type: application/json' \
-          --data-raw '{"model_file": "'"$MODEL_FILE"'", "remote_storage": "aws" }' \
+          --data-raw '{"model_file": "'"$MODEL_FILE"'", "remote_storage": "aws" }'
