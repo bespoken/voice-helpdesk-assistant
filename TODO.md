@@ -6,6 +6,7 @@
 - [X] Bundle as Docker Compose? Or K3S?
   * Docker Compose I think is a safer choice
 - [X] Reduce size of rasa instances
+- [ ] Upgrade to Rasa 2.0
 - [ ] Figure out what to do with handoff feature
   * Probably should be removed?
 - [ ] Do not use email for username - or remove validation
@@ -17,21 +18,23 @@
   - [X] With end-to-end test
   - [X] With audo-update of channel - will use docker-compose
 - [X] Fix build errors
-- [ ] Figure out why docker compose uses public IPs
-- [ ] Create example.env file
-- [ ] Make sure the python files from the omounted dir are being used in local environment
-- [ ] Do workflow triggers to create dependencies between workflows
+- [X] Create example.env file
+- [X] Make sure the python files from the mounted dir are being used in local environment
+- [X] Do workflow triggers to create dependencies between workflows
 - [ ] Actions container did not seem to have the latest code?
 - [ ] Create unique images that are public on dockerhub
+- [ ] Figure out why docker compose uses public IPs
 
 # Blog
-- [ ] Write blog post
+- [X] Write blog post
 - [ ] Send to Rasa team
 
 # Docs
-- [ ] Explain how to run in dev mode
-- [ ] Explain how to train
-- [ ] Explain how to deploy
+- [ ] Readme updates
+  - [ ] Illustration of phone call
+  - [ ] Explain how to run in dev mode
+  - [ ] Explain how to train
+  - [ ] Explain how to deploy
 
 # Testing
 - [ ] How do I get the twilio audio recording in the payload
