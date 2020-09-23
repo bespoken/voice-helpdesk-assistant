@@ -5,7 +5,7 @@ __pycache__/
 .vscode/
 .history/
 .pytype/
-tests/bst-debug.log
+bst-debug.log
 test_output/
 
 # Rasa Ignores
