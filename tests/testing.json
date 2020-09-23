@@ -25,5 +25,5 @@
     "speechModel": "default"
   },
   "virtualDeviceToken": "twilio-a3572612-2246-42df-b2c2-6b9bd27083cd",
-  "voiceId": "Joey-Neural"   
+  "voiceId": "Joey-neural"   
 }

@@ -1,7 +1,6 @@
 ## intent:greet
 - hey
 - hello
-- hi
 - good morning
 - good evening
 - hey there
@@ -93,7 +92,8 @@
 - [low](priority)
 - [medium](priority)
 - [high](priority)
-- [hi](priority)
+- [Hi.]{"entity": "priority", "value": "high"}
+- [Hi]{"entity": "priority", "value": "high"}
 - it should be a [low](priority) priority
 - it should be [medium](priority)
 - [escalated]{"entity": "priority", "value": "high"}
@@ -161,6 +161,3 @@
 - chat with a live agent
 - give me a person please
 - i want to talk to a human
-
-## synonym:high
-- hi

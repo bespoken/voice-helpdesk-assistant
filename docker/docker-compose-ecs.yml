@@ -1,9 +1,9 @@
 version: "3"
 services:
-  channels:
+  rasa:
     build: 
       context: ..
-      dockerfile: docker/Dockerfile-channels
+      dockerfile: docker/Dockerfile-rasa
     command: ["run", "--debug", "--enable-api", "-m", "latest-model", "--remote-storage", "aws"]  
     environment:
       - AWS_ACCESS_KEY_ID
@@ -17,10 +17,10 @@ services:
     ports: ["5005:5005"]
     x-aws-pull_credentials: "arn:aws:secretsmanager:us-east-1:048661040156:secret:dockerhubAccessToken-C6jQ1R"
     
-  actions:
+  action:
     build: 
       context: ..
-      dockerfile: docker/Dockerfile-actions
+      dockerfile: docker/Dockerfile-action
     ports: ["5055:5055"]
     image: bespoken/helpdesk-assistant-action
     x-aws-pull_credentials: "arn:aws:secretsmanager:us-east-1:048661040156:secret:dockerhubAccessToken-C6jQ1R"

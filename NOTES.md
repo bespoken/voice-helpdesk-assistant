@@ -50,28 +50,34 @@
 * Running a connector
   * Need to do `rasa run`
 
-  ## Gotchas
-  * Erros with tensorflow
+## Gotchas
+* Erros with tensorflow
 
-  # Setting up ECS With Docker Compose
-  * Install docker compose ecs
-    * https://docs.docker.com/engine/context/ecs-integration/
-    * aws configure
-  * created token for dockerhub access
-    * docker secret create dockerhubAccessToken --username <dockerhubuser>  --password <dockerhubtoken>
-  * Setup
-    * docker context create rasa
-  * Build
-    * docker context use default
-    * docker-compose -f docker/docker-compose-ecs.yml build
-  * Push
-    * docker-compose -f docker/docker-compose-ecs.yml push
-  * Deploy
-    * docker context use rasa
-    * export $(grep -v '^#' .env | xargs)
-    * docker compose -f docker/docker-compose-ecs.yml up
+# Docker Compose
+## Setting up ECS With Docker Compose
+* Install docker compose ecs
+  * https://docs.docker.com/engine/context/ecs-integration/
+  * aws configure
+* created token for dockerhub access
+  * docker secret create dockerhubAccessToken --username <dockerhubuser>  --password <dockerhubtoken>
+* Setup
+  * docker context create rasa
+* Build
+  * docker context use default
+  * docker-compose -f docker/docker-compose-ecs.yml build
+* Push
+  * docker-compose -f docker/docker-compose-ecs.yml push
+* Deploy
+  * docker context use rasa
+  * export $(grep -v '^#' .env | xargs)
+  * docker compose -f docker/docker-compose-ecs.yml up
 
+## Running Locally
+Starting
+* docker-compose -f docker/docker-compose-local.yml up
 
+Training
+* docker exec rasa rasa train
 # Model Updates
 ## Curl Command
 export MODEL_FILE=`ls -Art models | tail -n 1`

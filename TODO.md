@@ -1,40 +1,20 @@
-# Code
-- [X] Twilo-Rasa Connector
-- [X] Test Locally
-- [X] Create first end-to-end test
-- [X] Fix TensorFlow
-- [X] Bundle as Docker Compose? Or K3S?
-  * Docker Compose I think is a safer choice
-- [X] Reduce size of rasa instances
-- [ ] Upgrade to Rasa 2.0
+# Blog V1 items
 - [ ] Figure out what to do with handoff feature
   * Probably should be removed?
 - [ ] Do not use email for username - or remove validation
-
-# DevOps
-- [X] Setup github action
-  - [X] With auto-update of model
-  - [X] With rasa tests
-  - [X] With end-to-end test
-  - [X] With audo-update of channel - will use docker-compose
-- [X] Fix build errors
-- [X] Create example.env file
-- [X] Make sure the python files from the mounted dir are being used in local environment
-- [X] Do workflow triggers to create dependencies between workflows
-- [ ] Actions container did not seem to have the latest code?
 - [ ] Create unique images that are public on dockerhub
-- [ ] Figure out why docker compose uses public IPs
-
-# Blog
-- [X] Write blog post
 - [ ] Send to Rasa team
-
-# Docs
 - [ ] Readme updates
+  - [ ] Run doctoc?
   - [ ] Illustration of phone call
-  - [ ] Explain how to run in dev mode
-  - [ ] Explain how to train
+  - [ ] Add link to blog post
+  - [X] Explain how to run in dev mode
+  - [X] Explain how to train
   - [ ] Explain how to deploy
+  - [ ] Explain Github Actions
 
-# Testing
-- [ ] How do I get the twilio audio recording in the payload
+# Blog V2 items
+- [ ] Upgrade to Rasa 2.0
+- [ ] Actions container did not seem to have the latest code?
+- [ ] Figure out why docker compose uses public IPs
+- [ ] Figure out how to speed up training

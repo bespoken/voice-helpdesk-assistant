@@ -9,7 +9,7 @@
 - open incident:
   - set finishOnPhrase: "what is your email address"
   - transcript: "what is your email address"
-- jpk at bespoken dot io:
+- j p k at be spoken dot i o:
   - set finishOnPhrase: "of this issue"
 - high:
   - set finishOnPhrase: "for the issue" 

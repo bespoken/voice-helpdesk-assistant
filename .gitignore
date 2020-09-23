@@ -6,7 +6,7 @@ __pycache__/
 .history/
 .pytype/
 tests/bst-debug.log
-tests/test_output
+test_output/
 
 # Rasa Ignores
 rasa.db*

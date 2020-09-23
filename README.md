@@ -30,57 +30,48 @@ Here is an example of a conversation you can have with this bot:
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Setup
+### Create A Twilio Voice Project
+Follow the directions in our blog post for setting up a Twilio Voice project:
+LINK_TO_BLOG_POST
 
-### Install the dependencies
+### Environment Configuration
+Make a copy of the file `example.env` and save it as `.env`.
 
-In a Python3 virtual environment run:
+Add the Twilio Account SID and Twilio Auth Token from your Twilio Voice project.
 
-```bash
-pip install -r requirements.txt
+### Running Rasa Locally
+
+In an environment with Docker installed, run:
+```
+docker compose up
 ```
 
-To install development dependencies, run:
+This will start the entire environment, which includes the following containers:
 
-```bash
-pip install -r requirements-dev.txt
-pre-commit install
-```
-
-> With pre-commit installed, the `black` and `doctoc` hooks will run on every `git commit`.
-> If any changes are made by the hooks, you will need to re-add changed files and re-commit your changes.
+| Container | Description |
+| *** | *** |
+| rasa | The primary Rasa instance, including the custom channel for handling Twilio Voice |
+| action | The custom Action handler for the Rasa application |
+| duckling | Parses text into structured data |
 
 ## Running the bot
-
-Use `rasa train` to train a model.
-
-Then, to run, first set up your action server in one terminal window:
-
-```bash
-rasa run actions
+While the docker compose application is running, run the following:
+```
+docker exec rasa rasa train
 ```
 
-In another window, run the duckling server (for entity extraction):
-
-```bash
-docker run -p 8000:8000 rasa/duckling
+Then start and stop the Rasa container to reload the model:
+```
+docker compose restart rasa
 ```
 
-Then to talk to the bot, run:
-
+To run the shell, enter the following:
 ```bash
-rasa shell --debug
+docker compose run rasa shell --debug
 ```
 
 Note that `--debug` mode will produce a lot of output meant to help you understand how the bot is working
 under the hood. You can also add this flag to the action server command. To simply talk to the bot, you can remove this flag.
-
-You can also try out the bot locally using Rasa X by running
-
-```bash
-rasa x
-```
-
-Refer to our guided workflow in the [Wiki page](https://github.com/RasaHQ/helpdesk-assistant/wiki/Using-Rasa-X-with-the-Helpdesk-Assistant) for how to get started with Rasa X in local mode.
 
 ## Things you can ask the bot
 
@@ -273,8 +264,25 @@ If you list other locally running bots as handoff hosts, make sure the ports on 
 
 ## Testing the bot
 
-You can test the bot on the test conversations by running  `rasa test`.
-This will run [end-to-end testing](https://rasa.com/docs/rasa/user-guide/testing-your-assistant/#end-to-end-testing) on the conversations in `tests/conversation_tests.md`.
+You can test the bot on the test conversations by running  `rasa test`. This will test the core NLU and dialog model for the bot from run the [tests](https://rasa.com/docs/rasa/user-guide/testing-your-assistant/#end-to-end-testing) on the conversations in `tests/conversation_tests.md`.
+
+
+To run a complete end-to-end test for the bot, install the Bespoken CLI:
+```
+npm install bespoken-tools -g
+```
+
+And run the end-to-end tests with the command:
+```
+bst test --config tests/testing.json
+```
+
+This will run tests [from here](tests/e2e.yml) that do the following:
+* Call our Twilio endpoint (just a real person would)
+* Interact with our bot via voice
+* Capture the audio responses from the bot and compare to expected responses
+
+To learn more about Bespoken IVR testing, [read here](https://bespoken.io/end-to-end/ivr).
 
 ## Rasa X Deployment
 
