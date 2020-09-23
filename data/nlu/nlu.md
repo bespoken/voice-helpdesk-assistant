@@ -92,8 +92,6 @@
 - [low](priority)
 - [medium](priority)
 - [high](priority)
-- [Hi.]{"entity": "priority", "value": "high"}
-- [Hi]{"entity": "priority", "value": "high"}
 - it should be a [low](priority) priority
 - it should be [medium](priority)
 - [escalated]{"entity": "priority", "value": "high"}

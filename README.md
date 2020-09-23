@@ -62,7 +62,7 @@ docker exec rasa rasa train
 
 Then start and stop the Rasa container to reload the model:
 ```
-docker compose restart rasa
+docker compose restart
 ```
 
 To run the shell, enter the following:
