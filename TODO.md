@@ -1,17 +1,17 @@
 # Blog V1 items
 - [ ] Figure out what to do with handoff feature
   * Probably should be removed?
-- [ ] Do not use email for username - or remove validation
+- [X] Create phone call graphic
 - [ ] Create unique images that are public on dockerhub
-- [ ] Send to Rasa team
 - [ ] Readme updates
   - [ ] Run doctoc?
-  - [ ] Illustration of phone call
-  - [ ] Add link to blog post
+  - [X] Illustration of phone call
   - [X] Explain how to run in dev mode
   - [X] Explain how to train
-  - [ ] Explain how to deploy
-  - [ ] Explain Github Actions
+  - [X] Explain how to deploy
+  - [X] Explain Github Actions
+- [ ] Send to Rasa team
+  - [ ] Add link to blog post on README
 
 # Blog V2 items
 - [ ] Upgrade to Rasa 2.0

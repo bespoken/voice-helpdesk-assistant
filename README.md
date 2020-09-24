@@ -1,31 +1,28 @@
-# Rasa Helpdesk Assistant Example
+# Rasa Voice Helpdesk Assistant Example
 
 This is a Rasa example demonstrating how to build a Voice AI assistant for an IT Helpdesk. It uses Twilio Voice as a channel to handle customer support requests. Below is an example conversation, showing the bot helping a user open a support ticket and query its status. You can use this bot as a starting point for building customer service assistants or as a template for collecting required pieces of information from a user before making an API call.
 
 Here is an example of a conversation you can have with this bot:
 
-![Screenshot](./docs/demo_ss.png?raw=true)
+![Screenshot](./docs/CallFlow.gif?raw=true)
 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Rasa Helpdesk Assistant Example](#rasa-helpdesk-assistant-example)
-  - [Setup](#setup)
-    - [Install the dependencies](#install-the-dependencies)
-    - [Optional: Connect to a ServiceNow instance](#optional-connect-to-a-servicenow-instance)
-  - [Running the bot](#running-the-bot)
+- [Setup](#setup)
+  - [Create A Twilio Voice Project](#create-a-twilio-voice-project)
+  - [Environment Configuration](#environment-configuration)
+  - [Running Rasa Locally](#running-rasa-locally)
+- [What It Does](#what-it-does)
+  - [Trying out the bot](#trying-out-the-bot)
   - [Things you can ask the bot](#things-you-can-ask-the-bot)
   - [Example conversations](#example-conversations)
-  - [Handoff](#handoff)
-    - [Try it out](#try-it-out)
-    - [How it works](#how-it-works)
-    - [Bot-side configuration](#bot-side-configuration)
-  - [Testing the bot](#testing-the-bot)
-  - [Rasa X Deployment](#rasa-x-deployment)
-    - [Action Server Image](#action-server-image)
-  - [Notes on Chatroom](#notes-on-chatroom)
+- [Testing the bot](#testing-the-bot)
+- [CI/CD](#cicd)
+  - [AWS Deployment](#aws-deployment)
+  - [Continuous Integration](#continuous-integration)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -54,7 +51,8 @@ This will start the entire environment, which includes the following containers:
 | action | The custom Action handler for the Rasa application |
 | duckling | Parses text into structured data |
 
-## Running the bot
+## What It Does
+### Trying out the bot
 While the docker compose application is running, run the following:
 ```
 docker exec rasa rasa train
@@ -73,7 +71,7 @@ docker compose run rasa shell --debug
 Note that `--debug` mode will produce a lot of output meant to help you understand how the bot is working
 under the hood. You can also add this flag to the action server command. To simply talk to the bot, you can remove this flag.
 
-## Things you can ask the bot
+### Things you can ask the bot
 
 The bot has two main skills:
 1. Opening an incident in ServiceNow.
@@ -90,7 +88,7 @@ It can also respond to requests for help (e.g. "help me").
 
 If configured, the bot can also hand off to another bot in response to the user asking for handoff. More [details on handoff](#handoff) below.
 
-## Example conversations
+### Example conversations
 
 With `localmode=true`:
 
@@ -159,109 +157,6 @@ Your input ->  thanks
     You're welcome!
 ```
 
-
-## Handoff
-
-This bot includes a simple skill for handing off the conversation to another bot or a human.
-This demo relies on [this fork of chatroom](https://github.com/RasaHQ/chatroom) to work, however you
-could implement similar behaviour in another channel and then use that instead. See the chatroom README for
-more details on channel-side configuration.
-
-
-Using the default set up, the handoff skill enables this kind of conversation with two bots:
-
-<img src="./docs/handoff.gif" width="200">
-
-### Try it out
-
-The simplest way to use the handoff feature is to do the following:
-
-1. Clone [chatroom](https://github.com/RasaHQ/chatroom) and [Financial-Demo](https://github.com/RasaHQ/Financial-Demo) alongside this repo
-2. In the chatroom repo, install the dependencies:
-```bash
-yarn install
-```
-3. In the chatroom repo, build and serve chatroom:
-```bash
-yarn build
-yarn serve
-```
-4. In the Financial-Demo repo, install the dependencies and train a model (see the Financial-Demo README)
-5. In the Helpdesk-Assistant repo (i.e. this repo), run the rasa server and action server at the default ports (shown here for clarity)
-   In one terminal window:
-    ```bash
-    rasa run --enable-api --cors "*" --port 5005 --debug
-    ```
-    In another terminal window:
-    ```bash
-    rasa run actions --port 5055 --debug
-    ```
-6. In the Financial-Demo repo, run the rasa server and action server at **the non-default ports shown below**
-   In one terminal window:
-    ```bash
-    rasa run --enable-api --cors "*" --port 5006 --debug
-    ```
-    In another terminal window:
-    ```bash
-    rasa run actions --port 5056 --debug
-    ```
-7. Open `docs/chatroom_handoff.html` in a browser to see handoff in action
-
-
-### How it works
-
-Using chatroom, the general approach is as follows:
-
-1. User asks original bot for a handoff.
-2. The original bot handles the request and eventually
-   sends a message with the following custom json payload:
-    ```
-        {
-            "handoff_host": "<url of handoff host endpoint>",
-            "title": "<title for bot/channel handed off to>"
-            }
-    ```
-    This message is not displayed in the Chatroom window.
-3. Chatroom switches the host to the specified `handoff_host`
-4. The original bot no longer receives any messages.
-5. The handoff host receives the message `/handoff{"from_host":"<original bot url">}`
-6. The handoff host should be configured to respond to this message with something like,
-   "Hi, I'm <so and so>, how can I help you??"
-7. The handoff host can send a message in the same format as specified above to hand back to the original bot.
-   In this case the same pattern repeats, but with
-   the roles reversed. It could also hand off to yet another bot/human.
-
-### Bot-side configuration
-
-The "try it out" section doesn't require any further configuration; this section is for those
-who want to change or further understand the set up.
-
-For this demo, the user can ask for a human, but they'll be offered a bot (or bots) instead,
-so that the conversation looks like this:
-
-
-For handoff to work, you need at least one "handoff_host". You can specify any number of handoff hosts in the file `actions/hanodff_config.yml`.
-```
-handoff_hosts:
-    financial_demo:
-      title: "Financial Demo"
-      url: "http://localhost:5006"
-    ## you can add more handoff hosts to this list e.g.
-    # moodbot:
-    #   title: "MoodBot"
-    #   url: "http://localhost:5007"
-```
-
-Handoff hosts can be other locally running rasa bots, or anything that serves responses in the format that chatroom
-accepts. If a handoff host is not a rasa bot, you will of course want to update the response text to tell the user
-who/what they are being handed off to.
-
-The [Financial-Demo](https://github.com/RasaHQ/Financial-Demo) bot has been set up to handle handoff in exactly the same way as Helpdesk-Assistant,
-so the simplest way to see handoff in action is to clone Financial-Demo alongside this repo.
-
-If you list other locally running bots as handoff hosts, make sure the ports on which the various rasa servers & action servers are running do not conflict with each other.
-
-
 ## Testing the bot
 
 You can test the bot on the test conversations by running  `rasa test`. This will test the core NLU and dialog model for the bot from run the [tests](https://rasa.com/docs/rasa/user-guide/testing-your-assistant/#end-to-end-testing) on the conversations in `tests/conversation_tests.md`.
@@ -284,59 +179,29 @@ This will run tests [from here](tests/e2e.yml) that do the following:
 
 To learn more about Bespoken IVR testing, [read here](https://bespoken.io/end-to-end/ivr).
 
-## Rasa X Deployment
+## CI/CD
+### AWS Deployment
+To deploy the bot to AWS, we recommend using the Docker ECS Integration:  
+https://docs.docker.com/engine/context/ecs-integration/
 
-To [deploy helpdesk-assistant](https://rasa.com/docs/rasa/user-guide/how-to-deploy/), it is highly recommended to make use of the
-[one line deploy script](https://rasa.com/docs/rasa-x/installation-and-setup/one-line-deploy-script/) for Rasa X. As part of the deployment, you'll need to set up [git integration](https://rasa.com/docs/rasa-x/installation-and-setup/integrated-version-control/#connect-your-rasa-x-server-to-a-git-repository) to pull in your data and
-configurations, and build or pull an action server image.
+Follow the directions to setup the Docker support for ECS, as well as configure the AWS CLI.
 
-### Action Server Image
-
-You will need to have docker installed in order to build the action server image. If you haven't made any changes to the action code, you can also use
-the [public image on Dockerhub](https://hub.docker.com/r/rasa/helpdesk-assistant) instead of building it yourself.
-
-
-See the Dockerfile for what is included in the action server image,
-
-To build the image:
-
-```bash
-docker build . -t <name of your custom image>:<tag of your custom image>
+Once you have set it up, just run these commands:
+```
+docker context use <ECS_CONTEXT>
+docker compose up
 ```
 
-To test the container locally, you can then run the action server container with:
+That's all there is to it! Your fully configured Rasa instance will be setup and accessible via the new load balance created by Docker Compose.
 
-```bash
-docker run -p 5055:5055 <name of your custom image>:<tag of your custom image>
-```
+### Continuous Integration
+There are five Github Action workflows configured with this project.
 
-Once you have confirmed that the container works as it should, you can push the container image to a registry with `docker push`
+| Workflow | Description | Trigger |
+|---|---|---|
+| deploy | Automatically deploys to ECS a new version of the Rasa instance, Action server, and Duckling server | Tags with `rasa-*` |
+| e2e | Runs Bespoken End-To-End tests | Automatically run after the `train` or `deploy` workflows |
+| lint | Lints the custom Python code in our project | With an push that touches *.py files |
+| test | Runs the `rasa test` command | Whenever the code or model changes |
+| train | Trains the model, and automatically deploys to S3 to be loaded by the running Rasa instance | Whenever the model changes |
 
-It is recommended to use an[automated CI/CD process](https://rasa.com/docs/rasa/user-guide/setting-up-ci-cd) to keep your action server up to date in a production environment.
-
-## Notes on Chatroom
-
-If you want to try the transfer to another bot feature, you'll need to use Chatroom.  As of this writing, the main Scalable Minds chatroom [project](https://github.com/scalableminds/chatroom) has not included this feature so you will need to build from a fork. The following docker commands will build an image from the adapted Chatroom and run it.
-
-```
-docker build -t chatroom -f Dockerfile.chatroom .
-docker run --name chatroom -p 8080:8080 -d chatroom
-```
-
-From the `docker-compose.yml` below, you can start chatroom with `docker-compose up -d`
-
-Here's an example docker-compose.yml for this image. Note that the initial Rasa endpoint URL is hard coded in `chatroom_handoff.html`; to use your locally running bot, point it to `http://localhost:5005`.
-
-```
-version: "3.4"
-
-services:
-  chatroom:
-    image: chatroom
-    build:
-      context: ./
-      dockerfile: Dockerfile.chatroom
-    ports:
-      - "8080:8080"
-    command: [ "yarn", "serve" ]
-```
